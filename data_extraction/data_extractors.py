@@ -1,7 +1,7 @@
 import requests
 import os
 
-from data_extraction import TWELVE_API_BASE_URL, RAPID_API_HOST, EOD_STOCK_KEY1, EOD_STOCK_KEY2
+from data_extraction.data_extraction_configs import TWELVE_API_BASE_URL, RAPID_API_HOST
 
 
 def get_realtime_stock_price(stock_symbol, rapid_api_key):
@@ -56,9 +56,7 @@ def fetch_ohlcv_data(stock_symbol, interval, output_size, rapid_api_key):
 
 
 def fetch_bbw_data(stock_symbol, interval, standard_deviation, time_period, output_size, rapid_api_key):
-    base_url = TWELVE_API_BASE_URL
-    rapid_api_host = RAPID_API_HOST
-    url = f"{base_url}/bbands"
+    url = f"{TWELVE_API_BASE_URL}/bbands"
     print("parameters for data extraction:-> ", stock_symbol, interval, standard_deviation, time_period, output_size)
 
     querystring = {"symbol": {stock_symbol}, "interval": {interval}, "sd": {standard_deviation}, "series_type": "close",
@@ -66,7 +64,7 @@ def fetch_bbw_data(stock_symbol, interval, standard_deviation, time_period, outp
 
     headers = {
         "x-rapidapi-key": rapid_api_key,
-        "x-rapidapi-host": rapid_api_host
+        "x-rapidapi-host": RAPID_API_HOST
     }
 
     response = requests.get(url, headers=headers, params=querystring)
